@@ -9,8 +9,17 @@ export default class App extends React.Component {
     this.state = {
       todos: [],
       error: '',
+      todoNameInput: '',
     }
   }
+
+  onTodoChange = evt => {
+    const { value } = evt.target
+    this.setState({
+      ...this.state,
+      todoNameInput: value
+    })
+  } 
 
   fetchAllTodos = () => {
     axios.get(URL)
@@ -26,7 +35,6 @@ export default class App extends React.Component {
           error: err.response.data.message
         })
       })
-
   }
 
   componentDidMount() {
@@ -49,7 +57,12 @@ export default class App extends React.Component {
           }
         </div>
         <div id='todoForm'>
-          <input type='text' placeholder='Type Todo'></input>
+          <input
+            onChange={this.onTodoChange}
+            value={this.state.todoNameInput} 
+            type='text' 
+            placeholder='Type Todo'>
+          </input>
           <input type='submit'></input>
         </div>
       </div>
